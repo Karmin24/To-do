@@ -4,8 +4,8 @@ import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProjectsModule } from './projects/projects.module';
-import { TodoController } from './todo/todo/todo.controller';
 import entities from './typeorm';
+import { TodoController } from './todo/todo.controller';
 
 @Module({
   imports: [
