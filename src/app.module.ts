@@ -5,7 +5,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProjectsModule } from './projects/projects.module';
 import entities from './typeorm';
-import { TodoController } from './todo/todo.controller';
+import { TodoModule } from './todo/todo.module';
 
 @Module({
   imports: [
@@ -25,9 +25,10 @@ import { TodoController } from './todo/todo.controller';
       inject: [ConfigService],
     }),
     ProjectsModule,
+    TodoModule,
   ],
 
-  controllers: [AppController, TodoController],
+  controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {}

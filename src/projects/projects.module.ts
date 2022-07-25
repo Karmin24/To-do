@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Projects } from 'src/typeorm';
-import { ProjectsController } from './controllers/projects/projects.controller';
-import { ProjectsService } from './services/projects/projects.service';
+import { Project, Todo } from 'src/typeorm';
+import { ProjectController } from './projects.controller';
+import { ProjectService } from './projects.service';
 
 @Module({
-  controllers: [ProjectsController],
-  providers: [ProjectsService],
-  imports: [TypeOrmModule.forFeature([Projects])],
+  controllers: [ProjectController],
+  providers: [ProjectService],
+  imports: [TypeOrmModule.forFeature([Project, Todo])],
 })
 export class ProjectsModule {}

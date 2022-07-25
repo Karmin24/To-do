@@ -1,7 +1,9 @@
 import { IsNotEmpty, MinLength } from 'class-validator';
 
-export class CreateProjectDto {
+export class UpdateTodoDto {
   @IsNotEmpty()
   @MinLength(3)
-  name: string;
+  text: string;
+  @IsNotEmpty()
+  isCompleted: boolean;
 }

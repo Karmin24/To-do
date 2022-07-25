@@ -1,26 +1,45 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Todo } from 'src/typeorm/projects.entity';
+import { Project } from 'src/typeorm';
+import { Todo } from 'src/typeorm/todo.entity';
 import { Repository } from 'typeorm';
-import { CreateTodoDto } from './todo.dto';
+import { CreateTodoDto } from '../dtos/todo/create-todo.dto';
 
 @Injectable()
 export class TodoService {
   constructor(
     @InjectRepository(Todo)
     private readonly todoRepository: Repository<Todo>,
+    @InjectRepository(Project)
+    private readonly projectRepository: Repository<Project>,
   ) {}
 
-  createTodo(createTodoDto: CreateTodoDto) {
-    const NewTodo = this.todoRepository.create(createTodoDto);
-    return this.todoRepository.save(NewTodo);
-  }
+  async createTodo({ projectId, ...todo }: CreateTodoDto) {
+    const projectCandidate = await this.projectRepository.findOne({
+      where: {
+        id: projectId,
+      },
+      relations: ['todos'],
+    });
+    if (!projectCandidate) {
+      throw new NotFoundException();
+    }
 
-  countOfTodo() {
-    return this.todoRepository.count();
+    const newTodo = this.todoRepository.create(todo);
+    projectCandidate.todos.push(newTodo);
+    await this.projectRepository.save(projectCandidate);
+    return projectCandidate;
   }
 
   getAllTodo() {
     return this.todoRepository.find();
   }
+
+  // async updateTodo(id: any) {
+  //   const todo = await this.todoRepository.findOne(id);
+  //   if (!todo) {
+  //     throw new NotFoundException('Todo not Found');
+  //   }
+  //   return this.todoRepository.save({ ...todo, isCompleted: true });
+  // }
 }

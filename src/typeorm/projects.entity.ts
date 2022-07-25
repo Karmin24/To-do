@@ -1,15 +1,12 @@
-import { Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Todo } from './todo.entity';
 
 @Entity()
-export class Projects {
+export class Project {
   @PrimaryGeneratedColumn()
-  name: string;
-}
-
-@Entity()
-export class Todo {
-  @PrimaryGeneratedColumn()
+  id: number;
+  @Column('varchar', { length: 200, nullable: true })
   title: string;
-  id?: number;
-  status: string;
+  @OneToMany(() => Todo, (todos) => todos.project, { cascade: true })
+  todos: Todo[];
 }

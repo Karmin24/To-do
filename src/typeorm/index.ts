@@ -1,6 +1,7 @@
-import { Projects } from './projects.entity';
+import { Project } from './projects.entity';
+import { Todo } from './todo.entity';
 
-const entities = [Projects];
+const entities = [Project, Todo];
 
-export { Projects };
+export { Project, Todo };
 export default entities;
